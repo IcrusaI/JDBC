@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.InputEvent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
@@ -83,16 +82,15 @@ public class App extends Application {
 
     public void onClickDelete() throws Exception {
         try {
-            String id = fieldSearchById.getText();
+            Book book = tableView.getSelectionModel().getSelectedItem();
 
-            Book book = db.getBook(id);
-            fieldSearchById.setText("");
+            if (book == null) {
+                showAlertError("Выберите строку");
+            } else {
+                db.deleteBook(book.getId());
 
-            db.deleteBook(id);
-
-            getData();
-
-            showAlertInfo("Успешно");
+                getData();
+            }
         } catch (Exception e) {
             showAlertError(e.getMessage());
         }
@@ -106,20 +104,21 @@ public class App extends Application {
 
         db.createBook(book);
         getData();
-        showAlertInfo("Успешно");
     }
 
     public void onClickModify() throws Exception {
-        String id = fieldSearchById.getText();
+        Book book = tableView.getSelectionModel().getSelectedItem();
 
-        Book book = db.getBook(id);
-        fieldSearchById.setText("");
+        if (book == null) {
+            showAlertError("Выберите строку");
+        } else {
+            int id = book.getId();
 
-        book.setPages(new Random().nextInt());
+            book.setPages(new Random().nextInt());
 
-        db.modifyBook(id, book);
-        getData();
-        showAlertInfo("Успешно");
+            db.modifyBook(id, book);
+            getData();
+        }
     }
 
     private String randomString(int length) {
@@ -133,32 +132,9 @@ public class App extends Application {
                 .toString();
     }
 
-    public void onInput(ObservableValue observable, String oldValue, String newValue) {
-        fieldSearchById.setText(newValue.replaceAll("[^0-9]", ""));
-
-        if (fieldSearchById.getText().equals("")) {
-            changeDisableButtons(true);
-        } else {
-            changeDisableButtons(false);
-        }
-    }
-
-    private void changeDisableButtons(Boolean value) {
-        editButton.setDisable(value);
-        deleteButton.setDisable(value);
-    }
-
     private void showAlertError(String text) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setContentText(text);
-
-        alert.showAndWait();
-    }
-
-    private void showAlertInfo(String text) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information");
         alert.setContentText(text);
 
         alert.showAndWait();

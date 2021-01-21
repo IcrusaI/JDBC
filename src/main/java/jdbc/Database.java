@@ -45,7 +45,7 @@ public class Database {
         }
     }
 
-    public void deleteBook(String id) throws SQLException, ClassNotFoundException {
+    public void deleteBook(int id) throws SQLException, ClassNotFoundException {
         getQuery("DELETE FROM `books` WHERE `id` = " + id);
     }
 
@@ -55,7 +55,7 @@ public class Database {
         getQuery(query);
     }
 
-    public void modifyBook(String id, Book book) throws Exception {
+    public void modifyBook(int id, Book book) throws Exception {
         String query = "UPDATE `books` SET `pages` = '" + book.getPages() + "', `title` = '" + book.getTitle() + "', `id` = '" + book.getId() + "' WHERE `id` = " + id;
 
         getQuery(query);
