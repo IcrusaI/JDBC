@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jdbc.App">
+   <children>
+      <TextField fx:id="fieldSearchByTIN" layoutX="14.0" layoutY="13.0" promptText="Введите TIN" />
+      <Button layoutX="173.0" layoutY="13.0" mnemonicParsing="false" onAction="#onClickSearch" text="Найти" />
+      <TableView fx:id="workersTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+        <columns>
+          <TableColumn id="TIN" prefWidth="75.0" text="TIN" />
+          <TableColumn id="name" prefWidth="75.0" text="name" />
+            <TableColumn id="type" prefWidth="75.0" text="type" />
+            <TableColumn id="revenue" prefWidth="75.0" text="revenue" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
